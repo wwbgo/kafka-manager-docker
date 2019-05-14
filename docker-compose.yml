@@ -7,6 +7,8 @@ services:
       - 39000:9000
     environment:
       ZK_HOSTS: 192.168.50.77:30610
-      APPLICATION_SECRET: letmein
+      KAFKA_MANAGER_AUTH_ENABLED: "true"
+      KAFKA_MANAGER_USERNAME: admin
+      KAFKA_MANAGER_PASSWORD: admin
     volumes:
-      - /path/to/confdir:/kafka-manager-1.2.7/conf
+      - /path/to/confdir:/kafka-manager-2.0.0.2/conf
