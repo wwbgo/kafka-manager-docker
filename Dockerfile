@@ -1,18 +1,17 @@
-FROM hseeberger/scala-sbt
+FROM hseeberger/scala-sbt:11.0.8_1.4.3_2.13.3
 
 ENV ZK_HOSTS=localhost:2181 \
-     KM_VERSION=2.0.0.2
+     KM_VERSION=3.0.0.5
 
-RUN mkdir -p /tmp && \
-    cd /tmp && \
-    wget https://github.com/yahoo/kafka-manager/archive/${KM_VERSION}.tar.gz && \
+WORKDIR /tmp
+RUN wget https://github.com/yahoo/CMAK/archive/${KM_VERSION}.tar.gz && \
     tar xxf ${KM_VERSION}.tar.gz && \
-    cd /tmp/kafka-manager-${KM_VERSION} && \
+    cd CMAK-${KM_VERSION} && \
     sbt clean dist && \
-    unzip  -d / ./target/universal/kafka-manager-${KM_VERSION}.zip && \
-    rm -fr /tmp/${KM_VERSION} /tmp/kafka-manager-${KM_VERSION}
+    unzip  -d / ./target/universal/cmak-${KM_VERSION}.zip && \
+    rm -fr /tmp/${KM_VERSION}.tar.gz /tmp/CMAK-${KM_VERSION}
 
-WORKDIR /kafka-manager-${KM_VERSION}
+WORKDIR /cmak-${KM_VERSION}
 
 EXPOSE 9000
-ENTRYPOINT ["./bin/kafka-manager","-Dconfig.file=conf/application.conf"]
+ENTRYPOINT ["./bin/cmak","-Dconfig.file=conf/application.conf"]
